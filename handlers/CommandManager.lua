@@ -139,11 +139,13 @@ if not rawget(_G, "CommandManager") then
 	
 	-- Command that only works as host
 	function CommandManager:HostCMD(command)
-		if self:is_host() then
-			return self:Command(command)
-		else
-			managers.chat:_receive_message(1, command, "Host Only!", tweak_data.system_chat_color)
-			return false
+		if self.cmd == command then
+			if self:is_host() then
+				return true
+			else
+				managers.chat:_receive_message(1, command, "Host Only!", tweak_data.system_chat_color)
+				return false
+			end
 		end
 	end
 
