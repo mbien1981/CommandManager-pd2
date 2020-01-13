@@ -1,4 +1,4 @@
-dofile("mods/CommandManager/handlers/CommandManager")
+dofile("mods/CommandManager/handlers/CommandManager.lua")
 
 if rawget(_G, "CommandManager") then
 	if RequiredScript == "lib/managers/menumanager" then
