@@ -105,7 +105,7 @@ if not rawget(_G, "CommandManager") then
 		end
 	
 		if peerid and managers.network:session():peer(peerid) then
-			if unitcheck and managers.network:session():peer(peerid):unit() then
+			if not unitcheck or unitcheck and managers.network:session():peer(peerid):unit() then
 				return {peerid}
 			end
 		end
