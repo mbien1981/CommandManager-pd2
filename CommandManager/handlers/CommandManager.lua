@@ -7,8 +7,8 @@ end
 if not rawget(_G, "CommandManager") then
 	rawset(_G, "CommandManager", {})
 
-	dofile("mods/commandmanager/commands.lua")
-	dofile("mods/commandmanager/mycommands.lua")
+	dofile("mods/CommandManager/commands.lua")
+	dofile("mods/CommandManager/mycommands.lua")
 
 	-- CommandManager settings.
 	CommandManager.command_prefixes = {"!", "/", "."} -- Command prefixes, must be 1 char length
@@ -148,45 +148,5 @@ if not rawget(_G, "CommandManager") then
 			end
 		end
 	end
-
-	function CommandManager:Update(time, deltaTime)
-		local t = {}
-		for _, v in pairs( self._calls ) do
-			if v ~= nil then
-				v.currentTime = v.currentTime + deltaTime
-				if v.currentTime >= v.timeToWait then
-
-					if v.functionCall then
-						v.functionCall()
-					end
-
-					if v.loop then
-						v.currentTime = 0
-						table.insert(t, v)
-					else
-						v = nil
-					end
-				else
-					table.insert(t, v)
-				end
-			end
-		end
-		self._calls = t
-	end
-
-	function CommandManager:Add(id, time, func, sloop)
-		local queuedFunc = {
-			functionCall = func,
-			timeToWait = time,
-			currentTime = 0,
-			loop = (sloop or false)
-		}
-		self._calls[id] = queuedFunc
-	end
-
-	function CommandManager:Remove( id )
-		self._calls[id] = nil
-	end
-
 end
 

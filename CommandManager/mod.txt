@@ -8,8 +8,8 @@
 	"priority": 100,
 	"hooks": [
 		{
-			"hook_id": "lib/managers/menumanager",
-			"script_path": "handlers/menumanager.lua"
+			"hook_id": "lib/setups/setup",
+			"script_path": "handlers/commandmanager.lua"
 		},
 		{
 			"hook_id": "lib/managers/chatmanager",
@@ -17,7 +17,7 @@
 		},
 		{
 			"hook_id": "lib/managers/hud/hudchat",
-			"script_path": "hudchat.lua"
+			"script_path": "handlers/hudchat.lua"
 		}
 	],
 	"keybinds": [
