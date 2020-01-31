@@ -2,8 +2,6 @@ if rawget(_G, "CommandManager") then -- this allows us to reload the script in c
 	rawset(_G, "CommandManager", nil)
 end
 
--- Note: loops cannot be stopped yet, I'm still working on a fix for that
-
 if not rawget(_G, "CommandManager") then
 	rawset(_G, "CommandManager", {})
 
@@ -18,14 +16,13 @@ if not rawget(_G, "CommandManager") then
 	CommandManager.cmd = nil
 	CommandManager.cmd_list = {
 		"| help | peers | state | profile |",
-		"| prv | inf | stop | timers | meth |"
+		"| prv | inf | stop | time | meth |"
 	}
 	CommandManager.cmd_info = {
 		{id = "peers", text= "Display a list of players and their respective ID.\n\nThis command an also be executed as [ids]\n\nExample: %speers"},
 		{id = "state", text = "This command changes a player's current state, you must specify the player's id [check peers command for more info] and the state.\n\nList of valid states:\nstandard,arrested,incapacitated,bleed_out\n\nExample: %state 1 tased"},
 		{id = "prv", text = "This command sends a private message to a player, you must specify the player id."},
 		{id = "profile", text = "This command opens a player steam profile in the steam UI, only works for the person who has the mod.\n\n This comand can also be executed as [prf]\n\nExample: %sprofile 4"},
-		{id = "timers", text = "This command returns the timer from all devices/dills\n\nUse: %stime"},
 		{id = "time", text = "This command will change all the current drills/devices timer to a specified amount of seconds.\n\nExample: %stimers 50"},
 		{id = "inf", text = "This command sets a player state to tased for an unlimited amount of time, you can stop the loop with the stop command.\n\nExample: %sinf 2"},
 		{id = "help", text = "This command returns info about the commands from this mod.\n\nYou must specify the command or page.\n\nExample: %shelp 1"},
@@ -52,8 +49,6 @@ if not rawget(_G, "CommandManager") then
 				if id == element_id then
 					if Network:is_server() then
 						element:on_executed(player)
-					else
-						managers.network:session():send_to_host("to_server_mission_element_trigger", id, player)
 					end
 					break
 				end
@@ -84,7 +79,7 @@ if not rawget(_G, "CommandManager") then
 	
 			for x = 1, 4 do
 				if managers.network:session():peer(x) then
-					if  not unitcheck or unitcheck and managers.network:session():peer(x):unit() then
+					if  not unitcheck or (unitcheck and managers.network:session():peer(x):unit()) then
 						table.insert(tab, x)
 					end
 				end
@@ -105,7 +100,7 @@ if not rawget(_G, "CommandManager") then
 		end
 	
 		if peerid and managers.network:session():peer(peerid) then
-			if not unitcheck or unitcheck and managers.network:session():peer(peerid):unit() then
+			if not unitcheck or (unitcheck and managers.network:session():peer(peerid):unit()) then
 				return {peerid}
 			end
 		end
