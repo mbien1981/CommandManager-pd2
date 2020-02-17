@@ -1,33 +1,27 @@
 if rawget(_G, "CommandManager") then -- this allows us to reload the script in case we made some changes in-game.
-	rawset(_G, "CommandManager", nil)
+	if not CommandManager:in_chat() then
+		rawset(_G, "CommandManager", nil)
+	end
 end
 
 if not rawget(_G, "CommandManager") then
 	rawset(_G, "CommandManager", {})
 
-	dofile("mods/CommandManager/commands.lua")
-	dofile("mods/CommandManager/mycommands.lua")
-
 	-- CommandManager settings.
 	CommandManager.command_prefixes = {"!", "/", "."} -- Command prefixes, must be 1 char length
-	CommandManager._calls = {}
 	CommandManager.history = {}
 	CommandManager.retMessage = true
 	CommandManager.cmd = nil
-	CommandManager.cmd_list = {
-		"| help | peers | state | profile |",
-		"| prv | inf | stop | time | meth |"
-	}
-	CommandManager.cmd_info = {
-		{id = "peers", text= "Display a list of players and their respective ID.\n\nThis command an also be executed as [ids]\n\nExample: %speers"},
-		{id = "state", text = "This command changes a player's current state, you must specify the player's id [check peers command for more info] and the state.\n\nList of valid states:\nstandard,arrested,incapacitated,bleed_out\n\nExample: %state 1 tased"},
-		{id = "prv", text = "This command sends a private message to a player, you must specify the player id."},
-		{id = "profile", text = "This command opens a player steam profile in the steam UI, only works for the person who has the mod.\n\n This comand can also be executed as [prf]\n\nExample: %sprofile 4"},
-		{id = "time", text = "This command will change all the current drills/devices timer to a specified amount of seconds.\n\nExample: %stimers 50"},
-		{id = "inf", text = "This command sets a player state to tased for an unlimited amount of time, you can stop the loop with the stop command.\n\nExample: %sinf 2"},
-		{id = "help", text = "This command returns info about the commands from this mod.\n\nYou must specify the command or page.\n\nExample: %shelp 1"},
-		{id = "stop", text = "This command stops the infinite tase from a player.\n\nExample: %sstop 2"},
-		{id = "meth", text = "This command spawns meth to pick up, the player who has the mod must be the server host.\n\nUse: %smeth"}
+	CommandManager.help = {
+		["dm"]      = { description = "Send a private message to a player.\n\nThis command can also be executed as /prv", example = "/dm player_id [your message]" },
+		["example"] = { description = "Show the example of any command, use /example command_name", example = "/example dm" },
+		["help"] = { description = "General info, use /help command_name to get the info about any command from this mod, use /list to get a full list of commands", example = "/help list" },
+		["list"]    = { description = "Show a list of commands.", example = "/list" },
+		["meth"]    = { description = "Spawn meth to pick up in any heist where there's a meth lab available except lab rats.", example = "/meth" },
+		["peers"]   = { description = "Display a list of players and their respective ID.\n\nThis command an also be executed as [ids]", example = "/peers" },
+		["profile"] = { description = "Open a specified player's steam profile in the game overlay.\n\nThis command can also be executed as /prf", example = "/profile 1" },
+		["state"]   = { description = "Change a player's current state.\n\nList of Valid States:\narrested,tased,incapacitated,bleed_out,standard", example = "/state player_id state_name\n\n/state 2 tased" },
+		["time"]    = { description = "Set all currently working Drills/saws/hacking devices remaining time to a specified value in seconds.", example = "/time 20" }
 	}
 
 	function CommandManager:prefixes(str)
@@ -56,7 +50,21 @@ if not rawget(_G, "CommandManager") then
 		end
 	end
 
-	-- check if you are in-game
+	function CommandManager:in_game()
+		if not game_state_machine then
+			return false
+		else
+			return string.find(game_state_machine:current_state_name(), "game")
+		end
+	end
+
+	function CommandManager:in_chat()
+		if managers.hud and managers.hud._chat_focus == true then
+			return true
+		end
+	end
+
+	-- check if you are playing
 	function CommandManager:is_playing()
 		return BaseNetworkHandler._gamestate_filter.any_ingame_playing[game_state_machine.last_queued_state_name(game_state_machine)]
 	end
@@ -79,7 +87,7 @@ if not rawget(_G, "CommandManager") then
 	
 			for x = 1, 4 do
 				if managers.network:session():peer(x) then
-					if  not unitcheck or (unitcheck and managers.network:session():peer(x):unit()) then
+					if not unitcheck or (unitcheck and managers.network:session():peer(x):unit()) then
 						table.insert(tab, x)
 					end
 				end
@@ -91,11 +99,10 @@ if not rawget(_G, "CommandManager") then
 				peerid = tab[math.random(1, #tab)]
 			elseif code == "!" then -- anyone except self
 				table.remove(tab, me)
-				peerid = tab[math.random(1, #tab)]
+				peerid = tab
 			else -- self
 				peerid = me
 			end
-	
 			tab = nil
 		end
 	
@@ -132,7 +139,7 @@ if not rawget(_G, "CommandManager") then
 		end
 	end
 	
-	-- Command that only works as host
+	-- Commands that only works as host
 	function CommandManager:HostCMD(command)
 		if self.cmd == command then
 			if self:is_host() then
@@ -143,5 +150,7 @@ if not rawget(_G, "CommandManager") then
 			end
 		end
 	end
-end
 
+	dofile("mods/CommandManager/lua/src/Commands.lua")
+	dofile("mods/CommandManager/lua/CustomCommands.lua")
+end

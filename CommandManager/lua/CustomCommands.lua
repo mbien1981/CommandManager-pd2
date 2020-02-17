@@ -1,7 +1,7 @@
 -- Here is where you place your own commands, you shouldnt replace/delete this file in updates.
 if rawget(_G, "CommandManager") then
 	function CommandManager:external_commands(message, peer_id)
-		self.invis_player = false
+		local lunit = managers.player:player_unit()
 		local args = {}
 		local ret
 
@@ -14,7 +14,6 @@ if rawget(_G, "CommandManager") then
 			table.insert(args, cmd_args)
 		end
 
-		-- your commands
 		if self:HostCMD("host") then
 			ret = "Hello, Host!"
 		end
@@ -23,23 +22,8 @@ if rawget(_G, "CommandManager") then
 			ret = "Hello, World!"
 		end
 
-		if self:HostCMD("meth") then
-			if self:is_playing() then
-				for _, script in pairs(managers.mission:scripts()) do
-					for _, element in pairs(script:elements()) do
-						if element._editor_name == "show_endproduct" or element._editor_name == "show_meth" then
-							CommandManager:trigger_mission_element(element._id)
-						end
-					end
-				end
-				ret = "Meth Spawned."
-			else
-				ret = "You must be in-game and playing to do that."
-			end
-		end
-
 		if self:Command("reload") then
-			dofile("mods/commandmanager/handlers/commandmanager.lua")
+			dofile("mods/CommandManager/lua/src/CommandManager")
 			ret = "reloaded!"
 		end
 

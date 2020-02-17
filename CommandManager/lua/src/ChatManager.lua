@@ -2,8 +2,10 @@ function ChatManager:send_message(channel_id, sender, message)
 	if managers.network:session() then
 		sender = managers.network:session():local_peer()
 		if CommandManager:prefixes(message) then
-			CommandManager:CommandHandler(message, managers.network:session():local_peer():id())
-			CommandManager:external_commands(message, managers.network:session():local_peer():id())
+			if sender then
+				CommandManager:CommandHandler(message, managers.network:session():local_peer():id())
+				CommandManager:external_commands(message, managers.network:session():local_peer():id())
+			end
 		else
 			managers.network:session():send_to_peers_ip_verified("send_chat_message", channel_id, message)
 			self:receive_message_by_peer(channel_id, sender, message)

@@ -1,34 +1,34 @@
 {
-	"name": "Chat Commands",
-	"description": "Does what it says.",
-	"author": "Uziel2021",
-	"contact": "https://www.unknowncheats.me/forum/members/1077012.html",
-	"version": "1.0",
-	"blt_version": 2,
-	"priority": 100,
+    "name": "Chat Commands",
+    "description": "Add chat commands to the game, use /help for more info",
+    "author": "Uziel2021/_atom",
+    "contact": "https://www.unknowncheats.me/forum/members/1077012.html",
+    "blt_version": 2,
+    "color": "0 0 0",
+    "version": "4.0",
 	"hooks": [
 		{
-			"hook_id": "lib/setups/setup",
-			"script_path": "handlers/commandmanager.lua"
+			"hook_id": "core/lib/setups/coresetup",
+			"script_path": "lua/src/commandmanager.lua"
 		},
 		{
 			"hook_id": "lib/managers/chatmanager",
-			"script_path": "handlers/chatmanager.lua"
+			"script_path": "lua/src/chatmanager.lua"
 		},
-		{
+        {
 			"hook_id": "lib/managers/hud/hudchat",
-			"script_path": "handlers/hudchat.lua"
+			"script_path": "lua/src/hudchat.lua"
 		}
 	],
 	"keybinds": [
 		{
-			"keybind_id": "__reload_cc",
-			"name": "Reload Commands",
-			"description": "-",
-			"script_path": "handlers/commandmanager.lua",
-			"run_in_menu": true,
-			"run_in_game": true,
-			"localized": false
-		}
+            "keybind_id": "__reload_cmds",
+            "name": "Reload Commands",
+            "description": ""
+            "script_path": "lua/src/commandmanager.lua",
+            "run_in_menu": true,
+            "run_in_game": true,
+            "localized": false
+        }
 	]
 }

@@ -1,4 +1,5 @@
 local orig = HUDChat.key_press
+HUDChat.selected_command = 0
 function HUDChat:key_press(o, k)
 	orig(self, o, k)
 	local text = self._input_panel:child("input_text")
