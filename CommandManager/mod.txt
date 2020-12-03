@@ -1,6 +1,6 @@
 {
     "name": "Chat Commands",
-    "description": "Add chat commands to the game, use /help for more info",
+    "description": "Adds chat commands to the game.",
     "author": "Uziel2021/_atom",
     "contact": "https://www.unknowncheats.me/forum/members/1077012.html",
     "blt_version": 2,
@@ -9,23 +9,23 @@
 	"hooks": [
 		{
 			"hook_id": "core/lib/setups/coresetup",
-			"script_path": "lua/src/commandmanager.lua"
+			"script_path": "Hooked/Core/CommandManager.lua"
 		},
 		{
 			"hook_id": "lib/managers/chatmanager",
-			"script_path": "lua/src/chatmanager.lua"
+			"script_path": "Hooked/chatmanager.lua"
 		},
         {
 			"hook_id": "lib/managers/hud/hudchat",
-			"script_path": "lua/src/hudchat.lua"
+			"script_path": "Hooked/hudchat.lua"
 		}
 	],
 	"keybinds": [
 		{
             "keybind_id": "__reload_cmds",
             "name": "Reload Commands",
-            "description": ""
-            "script_path": "lua/src/commandmanager.lua",
+            "description": "",
+            "script_path": "Hooked/Core/CommandManager.lua",
             "run_in_menu": true,
             "run_in_game": true,
             "localized": false
