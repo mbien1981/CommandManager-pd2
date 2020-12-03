@@ -51,6 +51,13 @@ function CommandManager:in_game()
 	end
 end
 
+function CommandManager:is_playing()
+	if not BaseNetworkHandler then 
+		return false
+	end
+	return BaseNetworkHandler._gamestate_filter.any_ingame_playing[ game_state_machine:last_queued_state_name() ]
+end
+
 function CommandManager:message(text, title)
 	if text and type(text) == "string" then
 		managers.chat:_receive_message(1, (title or "SYSTEM"), text, tweak_data.system_chat_color)
