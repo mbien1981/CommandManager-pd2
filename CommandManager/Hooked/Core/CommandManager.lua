@@ -9,7 +9,7 @@ if not rawget(_G, "CommandManager") then
 		config  = {},
 		history = {},
 		modules = {},
-		path    = "LightHook/Hooked/Chat/Commands/%s",
+		path    = "mods/CommandManager/Hooked/Chat/Commands/%s",
 		command_prefixes = { "/", "!", "." }
 	})
 
