@@ -9,21 +9,19 @@ C:add_command("r", {
 
 C:add_command("prv", {
 	callback = function(args)
-		local peers = C:get_peers(args[1])
-		if peers then
-			for _, peer in pairs(peers) do
-				local text = ""
-				for i, msg in pairs(args) do
-					if i ~= 1 then
-						text = string.format("%s %s", text, msg)
-					end
+		local exist, peer = C:get_peer(args[1])
+		if exist then
+			local text = ""
+			for i, msg in pairs(args) do
+				if i ~= 1 then
+					text = string.format("%s %s", text, msg)
 				end
-
-				C:send_message(peer, string.format("[PRIVATE]: %s", text))
-				ret = string.format("Private Message sent to %s.", managers.network:session():peer(peer):name())
 			end
+
+			C:send_message(peer, string.format("[PRIVATE]: %s", text))
+			ret = string.format("Private Message sent to %s.", managers.network:session():peer(peer):name())
 		end
-		return ret
+		return ret or tostring(exist)
 	end
 })
 
@@ -41,6 +39,7 @@ C:add_command("re", {
 		end
 	end
 })
+
 
 C:add_command("test", {
 	callback = function()

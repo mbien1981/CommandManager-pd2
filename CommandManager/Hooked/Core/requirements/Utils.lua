@@ -25,14 +25,18 @@ function CommandManager:get_peer(id, unitcheck, ignore_local)
 	if session then
 		if tonumber(id) then
 			local peer = session:peer(id)
-			if peer and ( unitcheck and ( not alive(peer:unit())) )
-				and (ignore_local and (peer:id() ~= session:local_peer():id()))
-			then
-				return true, peer
+			if peer then
+				if ( unitcheck and ( not alive(peer:unit())) )
+					or (ignore_local and (peer:id() ~= session:local_peer():id()))
+				then
+					--?
+				else
+					return true, peer
+				end
 			end
 		end
 
-		-- if the peer does not exist, return a list with all availible peers
+		-- if the peer does not exist, return a list with all available peers
 		return false, self:get_peer_list( unitcheck, ignore_local)
 	end
 end
