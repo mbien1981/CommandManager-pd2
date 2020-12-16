@@ -5,7 +5,7 @@
 	"contact": "https://www.unknowncheats.me/forum/members/1077012.html",
 	"blt_version": 2,
 	"color": "0 0 0",
-	"version": "6.3",
+	"version": "6.4",
 	"hooks": [
 		{
 			"hook_id": "core/lib/setups/coresetup",
