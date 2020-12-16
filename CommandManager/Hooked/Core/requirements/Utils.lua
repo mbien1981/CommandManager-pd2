@@ -24,19 +24,18 @@ function CommandManager:get_peer(id, unitcheck, ignore_local)
 	local session = managers.network:session()
 	if session then
 		if tonumber(id) then
-			local peer = session:peer(id)
+			local peer = session:peer(tonumber(id))
 			if peer then
 				if ( unitcheck and ( not alive(peer:unit())) )
-					or (ignore_local and (peer:id() ~= session:local_peer():id()))
+					or (ignore_local and (peer:id() == session:local_peer():id()))
 				then
-					--?
 				else
 					return true, peer
 				end
 			end
 		end
 
-		-- if the peer does not exist, return a list with all available peers
+		-- if the peer does not exist, return a list with all availible peers
 		return false, self:get_peer_list( unitcheck, ignore_local)
 	end
 end
@@ -62,6 +61,7 @@ function CommandManager:is_playing()
 	return BaseNetworkHandler._gamestate_filter.any_ingame_playing[ game_state_machine:last_queued_state_name() ]
 end
 
+
 function CommandManager:message(text, title)
 	if text and type(text) == "string" then
 		managers.chat:_receive_message(1, (title or "SYSTEM"), text, tweak_data.system_chat_color)
@@ -69,7 +69,7 @@ function CommandManager:message(text, title)
 end
 
 function CommandManager:send_message(peer_id, message)
-	if not message or message == "" then
+	if (not message) or (message == "") then
 		return
 	end
 

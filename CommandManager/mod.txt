@@ -1,5 +1,5 @@
 {
-	"name": "Chat Commands",
+	"name": "CommandManager-PD2",
 	"description": "Adds chat commands to the game.",
 	"author": "Uziel2021/_atom",
 	"contact": "https://www.unknowncheats.me/forum/members/1077012.html",
