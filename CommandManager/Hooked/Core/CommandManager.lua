@@ -60,7 +60,7 @@ if (not rawget(_G, "CommandManager")) then
 	end
 
 	function CommandManager:log(...)
-		LightLogInfo(...)
+		print(...)
 	end
 
 	function CommandManager:prefixes(str)
