@@ -1,0 +1,18 @@
+{
+    "name": "CommandManager",
+    "description": "Adds chat commands to the game.",
+    "version": "7.0",
+    "author": "_atom",
+    "contact": "https://p3dhack.ru/index.php?/profile/113186-_atom/",
+    "blt_version": 2,
+    "hooks": [
+        {
+            "script_path": "lua/hooked/chatmanager.lua",
+            "hook_id": "lib/managers/chatmanager"
+        },
+        {
+            "script_path": "lua/hooked/commandmanager.lua",
+            "hook_id": "lib/managers/menumanager"
+        }
+    ]
+}
